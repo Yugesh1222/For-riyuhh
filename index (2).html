@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Person 🧡</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Caveat:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>emailjs.init('rQmdFGmi8ykxp812s');</script>
+<style>
+:root {
+  --bg:       #f7f0e8;
+  --card:     #ffffff;
+  --warm:     #fffaf4;
+  --brown:    #7c5c3e;
+  --brown-lt: #a07850;
+  --love:     #e8687a;
+  --text:     #3d2c1e;
+  --border:   #e8ddd0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── FLOATING HEARTS ── */
+#hearts {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.heart {
+  position: absolute;
+  bottom: -60px;
+  font-size: 1.2rem;
+  opacity: 0;
+  animation: floatHeart linear infinite;
+  user-select: none;
+}
+@keyframes floatHeart {
+  0%   { transform: translateY(0) scale(0.6) rotate(var(--r)); opacity: 0; }
+  10%  { opacity: 0.55; }
+  85%  { opacity: 0.35; }
+  100% { transform: translateY(-105vh) scale(1.1) rotate(calc(var(--r) + 30deg)); opacity: 0; }
+}
+
+/* ── PAGE HEADER ── */
+.page-header {
+  text-align: center;
+  margin-bottom: 1.6rem;
+  z-index: 2;
+  position: relative;
+}
+.page-header .tag {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brown-lt);
+  display: block;
+  margin-bottom: 0.3rem;
+}
+.page-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 6vw, 3.8rem);
+  color: var(--brown);
+  line-height: 1.1;
+}
+.page-header h1 em { font-style: italic; color: var(--love); }
+.page-header .sub {
+  font-family: 'Caveat', cursive;
+  font-size: 1.15rem;
+  color: var(--brown-lt);
+  margin-top: 0.3rem;
+  display: block;
+}
+
+/* ── FLIP STAGE ── */
+.stage {
+  perspective: 1400px;
+  width: min(720px, 92vw);
+  z-index: 2;
+  position: relative;
+}
+
+/* ── CARD SHELL (flip container) ── */
+.card-shell {
+  width: 100%;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+/* ── SECTION CARD ── */
+.section-card.warm { background: var(--warm); }
+
+/* flip-out: current card rotates away */
+@keyframes flipOut {
+  0%   { transform: rotateY(0deg);    opacity: 1; }
+  45%  { transform: rotateY(90deg);   opacity: 0; }
+  100% { transform: rotateY(90deg);   opacity: 0; }
+}
+/* flip-in: new card comes in from back */
+@keyframes flipIn {
+  0%   { transform: rotateY(-90deg);  opacity: 0; }
+  55%  { transform: rotateY(-90deg);  opacity: 0; }
+  100% { transform: rotateY(0deg);    opacity: 1; }
+}
+/* flip-out backward */
+@keyframes flipOutBack {
+  0%   { transform: rotateY(0deg);    opacity: 1; }
+  45%  { transform: rotateY(-90deg);  opacity: 0; }
+  100% { transform: rotateY(-90deg);  opacity: 0; }
+}
+/* flip-in backward */
+@keyframes flipInBack {
+  0%   { transform: rotateY(90deg);   opacity: 0; }
+  55%  { transform: rotateY(90deg);   opacity: 0; }
+  100% { transform: rotateY(0deg);    opacity: 1; }
+}
+
+.card-shell.flip-out      { animation: flipOut     0.55s cubic-bezier(.4,0,.2,1) forwards; }
+.card-shell.flip-in       { animation: flipIn      0.55s cubic-bezier(.4,0,.2,1) forwards; }
+.card-shell.flip-out-back { animation: flipOutBack 0.55s cubic-bezier(.4,0,.2,1) forwards; }
+.card-shell.flip-in-back  { animation: flipInBack  0.55s cubic-bezier(.4,0,.2,1) forwards; }
+
+/* ── TYPOGRAPHY ── */
+.s-tag {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brown-lt);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+.section-card h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.5rem, 4vw, 2.3rem);
+  color: var(--brown);
+  margin-bottom: 0.3rem;
+  line-height: 1.2;
+}
+.section-card h2 em { font-style: italic; color: var(--love); }
+.s-sub {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  color: var(--brown-lt);
+  display: block;
+  margin-bottom: 1rem;
+}
+
+/* ── HERO ── */
+.hero-card {
+  text-align: center;
+  padding: 2.8rem 2.2rem;
+  background: linear-gradient(135deg, #fff8f0, #fff3ea);
+}
+.hero-icon { font-size: 2.8rem; display: block; margin-bottom: 0.9rem; }
+.hero-card p {
+  font-family: 'Caveat', cursive;
+  font-size: 1.15rem;
+  color: var(--brown-lt);
+  line-height: 1.85;
+  max-width: 400px;
+  margin: 0.8rem auto 0;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  display: flex; align-items: center; gap: 0.7rem;
+  margin: 0.2rem 0 0.9rem; opacity: 0.4;
+}
+.divider::before, .divider::after { content:''; flex:1; height:1px; background:var(--border); }
+.divider span { font-size:0.85rem; white-space:nowrap; color:var(--brown-lt); font-family:'Caveat',cursive; }
+
+/* ── ROAST GRID ── */
+.roast-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8rem;
+}
+@media (max-width:500px){ .roast-grid { grid-template-columns:1fr; } }
+.roast-card {
+  background: #fff5f0;
+  border: 1px solid #f0ddd8;
+  border-left: 4px solid var(--love);
+  border-radius: 16px;
+  padding: 0.9rem 1rem;
+  transition: transform 0.2s;
+}
+.roast-card:hover { transform: translateY(-3px); }
+.rc-emoji { font-size:1.3rem; display:block; margin-bottom:0.25rem; }
+.roast-card p { font-family:'Caveat',cursive; font-size:0.98rem; color:var(--brown-lt); line-height:1.55; }
+
+/* ── LETTER ── */
+.letter-box {
+  background: #fffdf8;
+  border: 2px dashed var(--border);
+  border-radius: 18px;
+  padding: 1.2rem 1.4rem 1.1rem;
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  color: var(--brown-lt);
+  line-height: 1.5;
+  margin-top: 1.1rem;
+  position: relative;
+}
+.letter-box::before {
+  content:'💌'; position:absolute; top:-18px; left:50%;
+  transform:translateX(-50%); font-size:1.9rem;
+}
+.name-hl { color:var(--love); font-weight:700; font-size:1.15rem; }
+
+/* ── IMP SECTION LAYOUT ── */
+.imp-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 0.9rem;
+  align-items: stretch;
+}
+@media (max-width: 520px) {
+  .imp-layout { grid-template-columns: 1fr; }
+}
+
+.imp-media-slot {
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px dashed rgba(160,120,80,0.3);
+  background: rgba(255,248,240,0.7);
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+}
+.imp-media-slot:hover {
+  border-color: var(--love);
+  background: rgba(232,104,122,0.05);
+}
+.imp-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+}
+.imp-ph-icon { font-size: 2.2rem; display: block; }
+.imp-ph-text {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem;
+  color: var(--brown-lt);
+  line-height: 1.5;
+}
+.imp-media-slot img,
+.imp-media-slot video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+  display: block;
+}
+
+/* ── IMP CARDS ── */
+.imp-grid {
+  display:grid; grid-template-columns:1fr;
+  gap:0.8rem; margin-top:0.9rem;
+}
+.imp-card {
+  background:#f9f4ef; border:1px solid var(--border);
+  border-radius:16px; overflow:hidden;
+  display: flex; flex-direction: column;
+  transition:transform 0.2s, box-shadow 0.2s;
+}
+.imp-card:hover { transform:translateY(-4px); box-shadow:0 8px 24px rgba(124,92,62,0.1); }
+
+.imp-card .imp-media-slot {
+  width: 100%;
+  height: auto;
+  border-radius: 0;
+  border: none;
+  border-bottom: 2px dashed rgba(160,120,80,0.25);
+  background: rgba(255,248,240,0.9);
+  min-height: unset;
+  flex-shrink: 0;
+  overflow: hidden;
+  display: block;
+}
+.imp-card .imp-media-slot img,
+.imp-card .imp-media-slot video {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+}
+.imp-card .imp-media-slot:hover {
+  border-color: var(--love);
+  background: rgba(232,104,122,0.06);
+}
+
+.imp-card .ic { font-size:1.6rem; display:block; margin: 0.7rem auto 0.2rem; text-align:center; }
+.imp-card h3 { font-family:'Playfair Display',serif; font-size:0.95rem; color:var(--brown); margin-bottom:0.25rem; text-align:center; padding: 0 0.8rem; }
+.imp-card p  { font-family:'Caveat',cursive; font-size:0.9rem; color:var(--brown-lt); line-height:1.5; text-align:center; padding: 0 0.8rem 0.9rem; }
+
+/* ── NEWS ROAST CARD ── */
+.roast-news-card {
+  background: rgba(255,255,255,0.18) !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  border: 1px solid rgba(255,255,255,0.35) !important;
+  box-shadow: 0 8px 32px rgba(124,92,62,0.13) !important;
+}
+.news-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.news-ticker {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #c0392b;
+  background: rgba(192,57,43,0.1);
+  border: 1px solid rgba(192,57,43,0.25);
+  padding: 0.18rem 0.6rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  animation: blink 1.2s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.35} }
+.news-channel {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--brown-lt);
+  letter-spacing: 0.08em;
+}
+.news-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.1rem, 3.2vw, 1.55rem);
+  color: var(--brown);
+  line-height: 1.25;
+  margin-bottom: 0.9rem;
+  border-bottom: 2px solid rgba(232,104,122,0.3);
+  padding-bottom: 0.6rem;
+}
+.news-headline em { font-style: italic; color: var(--love); }
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+@media (max-width: 540px) {
+  .news-grid { grid-template-columns: 1fr; }
+}
+.news-item { display: flex; flex-direction: column; gap: 0.45rem; }
+.news-img-slot {
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  border: 2px dashed rgba(160,120,80,0.3);
+  background: rgba(255,255,255,0.25);
+  transition: border-color 0.2s, background 0.2s;
+}
+.news-img-slot:hover { border-color: var(--love); background: rgba(232,104,122,0.06); }
+.img-placeholder {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 0.3rem;
+  font-size: 1.6rem;
+  color: var(--brown-lt);
+}
+.img-placeholder span { font-family:'Caveat',cursive; font-size:0.75rem; text-align:center; opacity:0.7; }
+.news-img-slot img,
+.news-img-slot video {
+  width:100%; height:100%; object-fit:cover;
+  border-radius: 8px;
+  display: block;
+}
+.news-caption { flex: 1; }
+.news-tag {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--love);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.news-caption p {
+  font-family: 'Caveat', cursive;
+  font-size: 0.88rem;
+  color: var(--brown);
+  line-height: 1.55;
+}
+.news-footer {
+  margin-top: 0.8rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.68rem;
+  color: var(--brown-lt);
+  text-align: center;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+  border-top: 1px solid rgba(160,120,80,0.2);
+  padding-top: 0.5rem;
+}
+
+/* ── METER ── */
+.meter-wrap { margin-top:1.2rem; }
+.meter-bar {
+  width:100%; height:22px; background:#f0e8df;
+  border-radius:50px; overflow:hidden; margin-bottom:0.6rem;
+}
+.meter-fill {
+  height:100%;
+  background:linear-gradient(90deg,var(--love),#f4a8b8);
+  border-radius:50px; width:0%;
+  transition:width 2.5s cubic-bezier(.22,1,.36,1);
+  position:relative;
+}
+.meter-fill::after {
+  content:'💕'; position:absolute; right:8px; top:50%;
+  transform:translateY(-50%); font-size:0.95rem;
+}
+.meter-percent {
+  font-family:'Playfair Display',serif; font-size:3.2rem;
+  color:var(--love); font-weight:700; display:block; text-align:center;
+}
+.meter-note {
+  font-family:'Caveat',cursive; font-size:1rem;
+  color:var(--brown-lt); margin-top:0.35rem; display:block; text-align:center;
+}
+.meter-final {
+  font-family:'Caveat',cursive; font-size:1.35rem;
+  color:var(--brown); text-align:center; margin-top:1.2rem;
+}
+.meter-final strong { color:var(--love); }
+
+/* ── NAV ── */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.4rem;
+  z-index: 2;
+  position: relative;
+}
+.nav-btn {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--love), #f4a8b8);
+  color: white;
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(232,104,122,0.38);
+  transition: transform 0.18s, box-shadow 0.18s, opacity 0.18s;
+  line-height: 1;
+}
+.nav-btn:hover:not(:disabled) {
+  transform: scale(1.15);
+  box-shadow: 0 6px 22px rgba(232,104,122,0.55);
+}
+.nav-btn:active:not(:disabled) { transform: scale(0.93); }
+.nav-btn:disabled { opacity: 0.22; cursor: default; box-shadow: none; background: #ccc; }
+
+.nav-dots { display:flex; gap:0.4rem; align-items:center; }
+.dot {
+  width:8px; height:8px; border-radius:50%;
+  background:rgba(124,92,62,0.25);
+  transition:all 0.3s cubic-bezier(.34,1.56,.64,1);
+  cursor:pointer;
+}
+.dot.active { background:var(--love); width:22px; border-radius:6px; }
+
+/* ── WHATSAPP CHAT ── */
+.wa-wrapper {
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ece5dd;
+  margin: 0;
+  max-height: 72dvh;
+}
+.wa-topbar {
+  background: #075e54;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.wa-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.wa-info { flex: 1; }
+.wa-name {
+  display: block;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #fff;
+}
+.wa-status {
+  display: block;
+  font-family: 'Caveat', cursive;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.75);
+}
+.wa-leaked {
+  font-family: 'Caveat', cursive;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.6);
+  background: rgba(0,0,0,0.2);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.wa-body {
+  overflow-y: auto;
+  padding: 1rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.15) transparent;
+  background-color: #e8ddd4;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Ccircle cx='20' cy='20' r='2' fill='%23c5b9ae' opacity='0.4'/%3E%3Ccircle cx='60' cy='20' r='2' fill='%23c5b9ae' opacity='0.4'/%3E%3Ccircle cx='40' cy='50' r='2' fill='%23c5b9ae' opacity='0.4'/%3E%3Cpath d='M15 15 Q20 8 25 15' stroke='%23c5b9ae' stroke-width='1' fill='none' opacity='0.3'/%3E%3Cpath d='M55 15 Q60 8 65 15' stroke='%23c5b9ae' stroke-width='1' fill='none' opacity='0.3'/%3E%3Cpath d='M35 45 Q40 38 45 45' stroke='%23c5b9ae' stroke-width='1' fill='none' opacity='0.3'/%3E%3C/svg%3E");
+  background-size: 80px 80px;
+  /* fills remaining space after topbar inside the max-height wrapper */
+  min-height: 0;
+  flex: 1;
+}
+
+/* chat section card — let wa-wrapper handle scroll */
+.section-card:has(.wa-wrapper) {
+  overflow: hidden;
+  padding: 0;
+}
+.leaked-badge {
+  display: inline-block;
+  font-family: 'Caveat', cursive;
+  font-size: 0.85rem;
+  color: #fff;
+  background: rgba(7,94,84,0.85);
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 0.2rem 0.7rem;
+  border-radius: 20px;
+  margin-top: 0.3rem;
+  backdrop-filter: blur(4px);
+  letter-spacing: 0.04em;
+  animation: fadeInBadge 0.4s ease forwards;
+}
+@keyframes fadeInBadge {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.wa-msg {
+  display: flex;
+  flex-direction: column;
+  max-width: 78%;
+}
+.wa-msg.wa-left  { align-items: flex-start; align-self: flex-start; }
+.wa-msg.wa-right { align-items: flex-end;   align-self: flex-end; }
+.wa-bubble {
+  display: inline-block;
+  padding: 0.45rem 0.75rem;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #111;
+  word-break: break-word;
+}
+.wa-left  .wa-bubble { background: #fff;     border-top-left-radius: 2px; }
+.wa-right .wa-bubble { background: #dcf8c6;  border-top-right-radius: 2px; }
+.wa-time {
+  font-family: 'Caveat', cursive;
+  font-size: 0.72rem;
+  color: rgba(0,0,0,0.42);
+  margin-top: 0.1rem;
+  padding: 0 0.25rem;
+}
+
+/* ── PASSWORD SCREEN ── */
+#passwordScreen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #1a0a2e, #2d0a3e, #1a0a2e);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.pw-lock { font-size: 4rem; animation: lockPulse 2s ease-in-out infinite; }
+@keyframes lockPulse {
+  0%,100% { transform: scale(1); filter: drop-shadow(0 0 10px #ff69b4); }
+  50% { transform: scale(1.1); filter: drop-shadow(0 0 25px #ff69b4); }
+}
+.pw-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.4rem, 5vw, 2.2rem);
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 0 20px #ff69b4;
+}
+.pw-sub {
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem;
+  color: rgba(255,150,200,0.8);
+  text-align: center;
+}
+.pw-input-wrap {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+#pwInput {
+  font-family: 'Caveat', cursive;
+  font-size: 1.3rem;
+  padding: 0.7rem 1.2rem;
+  border-radius: 50px;
+  border: 2px solid rgba(255,105,180,0.5);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  outline: none;
+  width: 220px;
+  text-align: center;
+  letter-spacing: 0.1em;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+#pwInput:focus {
+  border-color: #ff69b4;
+  box-shadow: 0 0 20px rgba(255,105,180,0.5);
+}
+#pwInput::placeholder { color: rgba(255,255,255,0.35); }
+#pwInput.pw-error {
+  border-color: #ff4444;
+  box-shadow: 0 0 20px rgba(255,68,68,0.5);
+  animation: shake 0.4s ease;
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+#pwBtn {
+  background: linear-gradient(135deg, #ff69b4, #ff1493);
+  border: none;
+  border-radius: 50%;
+  width: 46px; height: 46px;
+  font-size: 1.3rem;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(255,105,180,0.6);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+#pwBtn:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(255,105,180,0.9); }
+.pw-hint {
+  font-family: 'Caveat', cursive;
+  font-size: 0.95rem;
+  color: rgba(255,150,200,0.5);
+  text-align: center;
+}
+.pw-error-msg {
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  color: #ff6b6b;
+  text-align: center;
+  min-height: 1.4rem;
+  transition: opacity 0.3s;
+}
+
+/* ── NEON GLOW ON CARD ── */
+.section-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 2rem 2.2rem;
+  box-shadow:
+    0 6px 32px rgba(124,92,62,0.10),
+    0 0 0 2px rgba(255,105,180,0.35),
+    0 0 18px 4px rgba(255,105,180,0.35),
+    0 0 40px 8px rgba(255,20,147,0.18),
+    inset 0 0 12px rgba(255,105,180,0.08);
+  animation: neonPulse 3s ease-in-out infinite;
+  width: 100%;
+  max-height: 72dvh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+@keyframes neonPulse {
+  0%,100% {
+    box-shadow:
+      0 6px 32px rgba(124,92,62,0.10),
+      0 0 0 2px rgba(255,105,180,0.4),
+      0 0 18px 4px rgba(255,105,180,0.4),
+      0 0 45px 10px rgba(255,20,147,0.22),
+      inset 0 0 12px rgba(255,105,180,0.08);
+  }
+  50% {
+    box-shadow:
+      0 6px 32px rgba(124,92,62,0.10),
+      0 0 0 2px rgba(255,20,147,0.7),
+      0 0 25px 8px rgba(255,20,147,0.55),
+      0 0 60px 15px rgba(255,105,180,0.3),
+      inset 0 0 18px rgba(255,105,180,0.13);
+  }
+}
+
+/* ── THANI SECTION ── */
+.thani-questions { display: flex; flex-direction: column; gap: 1rem; margin-top: 0.8rem; }
+.thani-q {
+  background: #fff5f0;
+  border: 1px solid #f0ddd8;
+  border-left: 4px solid var(--love);
+  border-radius: 16px;
+  padding: 0.9rem 1rem;
+}
+.thani-q .q-text {
+  font-family: 'Caveat', cursive;
+  font-size: 1.05rem;
+  color: var(--brown);
+  display: block;
+  margin-bottom: 0.6rem;
+  font-weight: 600;
+}
+.thani-opts { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.thani-opt {
+  background: #fff;
+  border: 2px solid var(--border);
+  border-radius: 50px;
+  padding: 0.4rem 1rem;
+  font-family: 'Caveat', cursive;
+  font-size: 0.97rem;
+  color: var(--brown);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.thani-opt:hover { border-color: var(--love); background: #fff0f5; }
+.thani-opt.selected { background: var(--love); border-color: var(--love); color: #fff; }
+.thani-input {
+  width: 100%;
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  background: #fff;
+  color: var(--brown);
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  margin-top: 0.3rem;
+}
+.thani-input:focus { border-color: var(--love); }
+.send-mail-btn {
+  display: block;
+  width: 100%;
+  margin-top: 1.2rem;
+  padding: 0.8rem;
+  background: linear-gradient(135deg, var(--love), #f4a8b8);
+  border: none;
+  border-radius: 50px;
+  color: #fff;
+  font-family: 'Caveat', cursive;
+  font-size: 1.15rem;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(232,104,122,0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.send-mail-btn:hover { transform: scale(1.03); box-shadow: 0 6px 22px rgba(232,104,122,0.6); }
+/* popup */
+#thaniPopup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 9000;
+  align-items: center;
+  justify-content: center;
+}
+#thaniPopup.show { display: flex; }
+#thaniPopupBox {
+  background: linear-gradient(135deg, #fff8f0, #ffe4f0);
+  border-radius: 24px;
+  padding: 1.8rem 2rem;
+  width: min(340px, 88vw);
+  text-align: center;
+  box-shadow: 0 0 0 2px rgba(255,105,180,0.5), 0 20px 60px rgba(0,0,0,0.3);
+  font-family: 'Caveat', cursive;
+  font-size: 1.15rem;
+  color: var(--brown);
+  line-height: 1.6;
+}
+#thaniPopupBox .popup-emoji { font-size: 2.5rem; display: block; margin-bottom: 0.7rem; }
+#thaniPopupClose {
+  margin-top: 1rem;
+  background: linear-gradient(135deg, var(--love), #f4a8b8);
+  border: none;
+  border-radius: 50px;
+  padding: 0.5rem 1.5rem;
+  color: #fff;
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD SCREEN -->
+<div id="passwordScreen">
+  <div class="pw-lock">🔒</div>
+  <div class="pw-title">Psst... secret place! 🤫</div>
+  <div class="pw-sub">Password podu de 👀✨</div>
+  <div class="pw-input-wrap">
+    <input id="pwInput" type="password" placeholder="password..." autocomplete="off" />
+    <button id="pwBtn">→</button>
+  </div>
+  <div class="pw-error-msg" id="pwError"></div>
+  <div class="pw-hint">hint: Nee enna epdi kupduva 💕</div>
+</div>
+
+<!-- POPUP FOR THANI SECTION -->
+<div id="thaniPopup">
+  <div id="thaniPopupBox">
+    <span class="popup-emoji" id="popupEmoji">💔</span>
+    <div id="popupMsg"></div>
+    <button id="thaniPopupClose" onclick="document.getElementById('thaniPopup').classList.remove('show')">ok da 🥺</button>
+  </div>
+</div>
+
+<!-- FLOATING HEARTS -->
+<div id="hearts"></div>
+
+<!-- HEADER -->
+<header class="page-header">
+  <span class="tag">✨ dedicated to my one & only ✨</span>
+  <h1>Ennoda <em>GBF</em></h1>
+  <span class="sub">Unnala dhan en lyf ippo konjam happy ah irukuu 🧡</span>
+  <span class="leaked-badge" id="leakedBadge" style="display:none;">🔒 Leaked Chat of Riya</span>
+</header>
+
+<!-- FLIP STAGE -->
+<div class="stage">
+  <div class="card-shell" id="cardShell">
+    <!-- content injected by JS -->
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-btn" id="prevBtn" disabled>‹</button>
+  <div class="nav-dots" id="navDots"></div>
+  <button class="nav-btn" id="nextBtn">›</button>
+</div>
+
+<script>
+/* ── SECTION DATA ── */
+const sections = [
+  {
+    cls: 'hero-card',
+    html: `
+      <span class="hero-icon">🥺</span>
+      <h2>Oru special-aana aala pathi sollanumna<br><em>words podhave podhadu</em></h2>
+      <p>so naan oru website-e pannitaen — because she deserves nothing less 💛</p>
+    `
+  },
+  {
+    cls: 'roast-news-card',
+    html: `
+      <div class="news-header">
+        <span class="news-ticker">🔴 BREAKING NEWS</span>
+        <span class="news-channel">BESTIE TV • LIVE</span>
+      </div>
+      <div class="news-headline">Local Girl's <em>Criminal Record</em> — Fully Exposed 💀</div>
+      <div class="news-grid">
+        <div class="news-item">
+          <div class="news-img-slot">
+            <img src="temple.png" alt="temple incident">
+          </div>
+          <div class="news-caption">
+            <span class="news-tag">🚨 BREAKING</span>
+            <p>"Temple-la Boyfriend-ah Kiss Pannitanga!" — sammiya nerla paatha maariii shocked aana bakthas. CCTV footage leak aachu. Police case file pannanga. Accused romba cute-a irundhanunu witnesses solranga 😭</p>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-img-slot">
+            <img src="bad.png" alt="bad words incident">
+          </div>
+          <div class="news-caption">
+            <span class="news-tag">💬 EXCLUSIVE</span>
+            <p>"BFF-ah romba kevalamana bad words use panni thitirukaga. Accused-oda exact words print panna mudiyala — too dangerous. BFF ipoum therapy-la irukanga 💀.avagaloda gf rakshi case file pannirukaga</p>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-img-slot">
+            <img src="lust.png" alt="jas incident">
+          </div>
+          <div class="news-caption">
+            <span class="news-tag">⚠️ ALERT</span>
+            <p>"Jass-ah Relentlessly Abuse Pannanga!" — Victim Jass confirmed: "Romba naal la, daily routine la enna kedukuraga." Neighbours shocked. "Always innocent face-a iruppanga" nu locals solranga 😂</p>
+          </div>
+        </div>
+      </div>
+      <div class="news-footer">📺 Pundaa news • "Nambikkai Illatha Thodarpugal"</div>
+    `
+  },
+  {
+    cls: 'warm',
+    html: `
+      <span class="s-tag" style="text-align:center;">💘 Official Correspondence</span>
+      <h2 style="text-align:center;">For <em>Maggie</em> 💌</h2>
+      <div class="letter-box" style="text-align:left;">
+        <strong style="color:var(--brown);font-family:'Playfair Display',serif;">Subject:</strong> Riya's Final Warning <em style="color:var(--love)">(Wait, I mean Proposal!)</em> 💍<br><br>
+
+        Dei <span class="name-hl">Maggie</span>, 👋<br>
+        Epdi iruka pundaa? Hope you are othufying good. 🤣<br><br>
+
+        Direct-ah vishayathuku varava? 🎯 Namma <span class="name-hl">Riya</span> unna romba naala love panra. Adhu unakku theriyum, un kannu vazhiya pakura ellarukum theriyum 👀✨ But nee dhaan innum "Maggi" maari vegama iruka 🍜😩 waiting list la vechitu.<br><br>
+
+        Listen buddy 🫵 — our girl Riya is a gem 💎 Ava unna select pannadhey un <strong>lucky time</strong> dhaan. So, indha letter-ah oru application-ah paakama, oru <strong style="color:var(--love)">Golden Opportunity</strong>-ah paaru. 🥇 <strong>Rakshi</strong> riya ah irritate panra neeyum adhuku oppose pannama iruka pathuko becoz  <strong>rakshi</strong> en aaalu<br><br>
+
+        <strong style="color:var(--brown);font-family:'Playfair Display',serif;">Here is the deal:</strong><br>
+        ✅ <strong>Accept panna:</strong> Life full-ah jolly-ah irupinga. Riya happy, naangalum happy! 🎉🥳<br>
+        ❌ <strong>Reject panna:</strong> No worries da... naanga tension-laam aagamatom. Adutha second-ey vera nalla aala paaka poiduvom! 😌👀 Riya-voda <em>"Waiting List"</em> romba perusu, so seekram solludu. 📋<br><br>
+
+        Don't think too much 🧠💨 — 2 mins-la Maggi ready aagura maari ⏱️🍜, <strong style="color:var(--love)">"Yes"</strong> nu solli mudichuru. Illana, next item-ku move on aayiduvom! 🚶‍♀️💨<br><br>
+
+        Waiting for your <em>"Sweet" reply</em> (not spicy! 🌶️😤)<br><br>
+
+        Cheers, 🥂<br>
+        <span style="color:var(--love);font-weight:700;font-size:1.1rem;">Riya-voda Official Recommendation Committee</span><br>
+        <span style="font-size:0.95rem;opacity:0.8;">( Her Bestie Yugi🫶 )</span>
+      </div>
+    `
+  },
+  {
+    cls: '',
+    html: `
+      <span class="s-tag">💛 The Real Part</span>
+      <h2>Ava Ennaku <em>Evlo Important?</em></h2>
+      <div class="imp-grid">
+        <div class="imp-card">
+          <div class="imp-media-slot">
+            <img src="v4.jpg" alt="ennoda care">
+          </div>
+          <span class="ic">🫂</span>
+          <h3>unnoda Care</h3>
+          <p>Ne enna yarkagavum vitukuduka matenu sonna adha keep up pannuviyanu therila but na pannuven adha.</p>
+        </div>
+        <div class="imp-card">
+          <div class="imp-media-slot">
+            <video src="v1.mp4" autoplay muted loop playsinline style="width:100%;height:auto;display:block;" onclick="this.muted=false;this.controls=true;"></video>
+          </div>
+          <span class="ic">❤️</span>
+          <h3>unnoda Love</h3>
+          <p>Words-la sollamudiyatha love. you're not only just a friend — you're my comfort zone.</p>
+        </div>
+        <div class="imp-card">
+          <div class="imp-media-slot">
+            <video src="v2.mp4" autoplay muted loop playsinline style="width:100%;height:auto;display:block;" onclick="this.muted=false;this.controls=true;"></video>
+          </div>
+          <span class="ic">👩‍👧</span>
+          <h3>Ennoda Akka</h3>
+          <p>Thambi eppo down ah feel pannalum loosu punda mari peasi motivate pannuva.enn mela avlo pasam vechiruka</p>
+        </div>
+        <div class="imp-card">
+          <div class="imp-media-slot">
+            <img src="v3.jpg" alt="bestest friend">
+          </div>
+          <span class="ic">🌟</span>
+          <h3>Bestest Friend</h3>
+          <p>Life-la evlo friends varuvaanga poruvaanga en rakshi mari vera oru ponna kuda na meet pannalam but— unna maari oru frnd varamaatanga.</p>
+        </div>
+      </div>
+    `
+  },
+  {
+    cls: '',
+    html: `
+      <div class="wa-wrapper">
+        <div class="wa-topbar">
+          <div class="wa-avatar">M</div>
+          <div class="wa-info">
+            <span class="wa-name">Maggie 💙</span>
+            <span class="wa-status">ennoda akka 🖤</span>
+          </div>
+        </div>
+        <div class="wa-body">
+
+          <div class="wa-msg wa-right">
+            <span class="wa-bubble">😒😒</span>
+            <span class="wa-time">Riya</span>
+          </div>
+          <div class="wa-msg wa-left">
+            <span class="wa-bubble">enna ma achi 😚</span>
+            <span class="wa-time">Maggie</span>
+          </div>
+          <div class="wa-msg wa-right">
+            <span class="wa-bubble">Onnula nga 😒</span>
+            <span class="wa-time">Riya</span>
+          </div>
+          <div class="wa-msg wa-left">
+            <span class="wa-bubble">enna achi thangamey mama kitta sollu 😘</span>
+            <span class="wa-time">Maggie</span>
+          </div>
+          <div class="wa-msg wa-right">
+            <span class="wa-bubble">nee rakshi ku ethuku sollikudutha</span>
+            <span class="wa-time">Riya</span>
+          </div>
+          <div class="wa-msg wa-right">
+            <span class="wa-bubble">ethuku ava enna verupethanum nu unkuda close ah irukaaa</span>
+            <span class="wa-time">Riya</span>
+          </div>
+          <div class="wa-msg wa-right">
+            <span class="wa-bubble">ennaku sema tention aguthu 🤬</span>
+            <span class="wa-time">Riya</span>
+          </div>
+          <div class="wa-msg wa-left">
+            <span class="wa-bubble">aiyayooo</span>
+            <span class="wa-time">Maggie</span>
+          </div>
+          <div class="wa-msg wa-right">
+            <span class="wa-bubble">enna aiyayoo poda pundaa 🤬</span>
+            <span class="wa-time">Riya</span>
+          </div>
+          <div class="wa-msg wa-left">
+            <span class="wa-bubble">seri Inga kelu chlm na Inime avakitta peasa maten.</span>
+            <span class="wa-time">Maggie</span>
+          </div>
+          <div class="wa-msg wa-left">
+            <span class="wa-bubble">ithukula kochikalama en thangola 🖤, en pattu la 💙, en pondati la 🤍.</span>
+            <span class="wa-time">Maggie</span>
+          </div>
+          <div class="wa-msg wa-left">
+            <span class="wa-bubble">ummahhhh 😘</span>
+            <span class="wa-time">Maggie</span>
+          </div>
+          <div class="wa-msg wa-right">
+            <span class="wa-bubble">peasiye mayakidu da po 😒</span>
+            <span class="wa-time">Riya</span>
+          </div>
+          <div class="wa-msg wa-left">
+            <span class="wa-bubble">love you mahhhhhh 😻</span>
+            <span class="wa-time">Maggie</span>
+          </div>
+          <div class="wa-msg wa-right">
+            <span class="wa-bubble">🫣🫣🫣</span>
+            <span class="wa-time">Riya</span>
+          </div>
+          <div class="wa-msg wa-left">
+            <span class="wa-bubble">nee sollu ma</span>
+            <span class="wa-time">Maggie</span>
+          </div>
+          <div class="wa-msg wa-right">
+            <span class="wa-bubble">love you Maggie chlm 🫣💙</span>
+            <span class="wa-time">Riya</span>
+          </div>
+          <div class="wa-msg wa-left">
+            <span class="wa-bubble">😘😘😘</span>
+            <span class="wa-time">Maggie</span>
+          </div>
+          <div class="wa-msg wa-right">
+            <span class="wa-bubble">Aiyoo ennaku vekka vekkama varutheyy 🫣😆</span>
+            <span class="wa-time">Riya</span>
+          </div>
+          <div class="wa-msg wa-left">
+            <span class="wa-bubble">apdiya chlm na v2ku varava vekkatha pakka 😆😆</span>
+            <span class="wa-time">Maggie</span>
+          </div>
+          <div class="wa-msg wa-right">
+            <span class="wa-bubble">adhan location send paniruken la ithula oru kelviyaa</span>
+            <span class="wa-time">Riya</span>
+          </div>
+          <div class="wa-msg wa-left">
+            <span class="wa-bubble">2mins la vanthuren 🫦🫣😘</span>
+            <span class="wa-time">Maggie</span>
+          </div>
+
+        </div>
+      </div>
+    `
+  },
+  {
+    cls: 'warm',
+    html: `
+      <span class="s-tag" style="text-align:center;">💕 Officially Measured</span>
+      <h2 style="text-align:center;">Nee Ennaku <em>Evlo Important?</em></h2>
+      <span class="s-sub" style="text-align:center;">Scientifically calculated panni irukken 🔬</span>
+      <div class="meter-wrap">
+        <div class="meter-bar"><div class="meter-fill" id="meterFill"></div></div>
+        <span class="meter-percent" id="meterPercent">0%</span>
+        <span class="meter-note">meter 100%-la stop aachu — but Un worth infinity% 🥺</span>
+      </div>
+      <p class="meter-final">Nee romba special deyy. <strong>Always.</strong> 💛</p>
+    `,
+    onEnter: triggerMeter
+  },
+  {
+    cls: 'warm',
+    html: `
+      <span class="s-tag" style="text-align:center;">📮 Anwser boloo</span>
+      <h2 style="text-align:center;">Unnaku Oru <em>Questions</em> 🥺</h2>
+      <span class="s-sub" style="text-align:center;">Answer pannuu 💌</span>
+      <div class="thani-questions">
+
+        <div class="thani-q" data-q="1">
+          <span class="q-text">1. Unnaku na impt ah illa maggie ahh 🥺</span>
+          <div class="thani-opts">
+            <button class="thani-opt" data-q="1" data-val="yugiii">yugiii</button>
+            <button class="thani-opt" data-q="1" data-val="maggie">maggie</button>
+          </div>
+        </div>
+
+        <div class="thani-q" data-q="2">
+          <span class="q-text">2. Maggie kaga enna vitu kudupiya?? 💔</span>
+          <div class="thani-opts">
+            <button class="thani-opt" data-q="2" data-val="yes">yes</button>
+            <button class="thani-opt" data-q="2" data-val="no" id="noBtn2">No</button>
+          </div>
+        </div>
+
+        <div class="thani-q" data-q="3">
+          <span class="q-text">3. Ennaku oru nalla ponnu pathu tharuviyaa? 😅</span>
+          <div class="thani-opts">
+            <button class="thani-opt" data-q="3" data-val="pakkalam">pakkalam</button>
+            <button class="thani-opt" data-q="3" data-val="next year marriage">next year la unnaku marriage panni vechiruven 💀</button>
+          </div>
+        </div>
+
+        <div class="thani-q" data-q="4">
+          <span class="q-text">4. You won't replace me with anyone, right? 🥺</span>
+          <div class="thani-opts">
+            <button class="thani-opt" data-q="4" data-val="never ever">never ever 🤍</button>
+            <button class="thani-opt" data-q="4" data-val="maybe lol">maybe lol 😬</button>
+          </div>
+        </div>
+
+        <div class="thani-q" data-q="5">
+          <span class="q-text">5. I'm still your priority… right? 🫠</span>
+          <div class="thani-opts">
+            <button class="thani-opt" data-q="5" data-val="always">always 💛</button>
+            <button class="thani-opt" data-q="5" data-val="not always">not always 😶</button>
+          </div>
+        </div>
+
+        <div class="thani-q" data-q="6">
+          <span class="q-text">6. Things that you forgot or hide for me 🤫</span>
+          <input class="thani-input" id="thaniInput6" type="text" placeholder="type here da...">
+        </div>
+
+        <div class="thani-q" data-q="7">
+          <span class="q-text">7. Did you miss me in leave? 🥹</span>
+          <div class="thani-opts">
+            <button class="thani-opt" data-q="7" data-val="yes miss panen" id="missYesBtn">yes miss panen 🥺</button>
+            <button class="thani-opt" data-q="7" data-val="illa miss pannala">illa miss pannala 💀</button>
+          </div>
+        </div>
+
+        <div class="thani-q" data-q="8">
+          <span class="q-text">8. Nee maggie kaga enna nalla avoid panra riyuhhh 🥺</span>
+          <div class="thani-opts">
+            <button class="thani-opt" data-q="8" data-val="illa da">illa da 🥺</button>
+            <button class="thani-opt" data-q="8" data-val="konjam yes">konjam yes 😶</button>
+          </div>
+        </div>
+
+      </div>
+      <button class="send-mail-btn" onclick="sendThaniMail()">💌 Mail la anuppu</button>
+    `
+  }
+];
+
+/* ── STATE ── */
+let current = 0;
+let busy    = false;
+const total = sections.length;
+
+/* ── RENDER ── */
+const shell   = document.getElementById('cardShell');
+const dotsWrap= document.getElementById('navDots');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+// Build dots
+sections.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.addEventListener('click', () => { if (!busy && i !== current) goTo(i); });
+  dotsWrap.appendChild(d);
+});
+
+function renderCard(idx) {
+  const s = sections[idx];
+  shell.innerHTML = `<div class="section-card ${s.cls}">${s.html}</div>`;
+
+  // Auto-detect and fix media slots: img tags with video src → replace with <video>
+  shell.querySelectorAll('.imp-media-slot img, .news-img-slot img').forEach(img => {
+    const src = img.getAttribute('src') || '';
+    const ext = src.split('.').pop().toLowerCase();
+    const isVideo = ['mp4','webm','mov','ogg'].includes(ext);
+    if (isVideo) {
+      const vid = document.createElement('video');
+      vid.src = src;
+      vid.autoplay = true;
+      vid.muted = true;
+      vid.loop = true;
+      vid.playsInline = true;
+      vid.style.cssText = 'width:100%;height:auto;display:block;';
+      vid.addEventListener('click', () => { vid.muted = false; vid.controls = true; });
+      img.replaceWith(vid);
+    }
+  });
+
+  // Also set autoplay/muted on any already-present video tags
+  shell.querySelectorAll('.imp-media-slot video, .news-img-slot video').forEach(vid => {
+    vid.autoplay = true;
+    vid.muted = true;
+    vid.loop = true;
+    vid.removeAttribute('controls');
+    vid.addEventListener('click', () => { vid.muted = false; vid.controls = true; });
+    vid.play().catch(() => {});
+  });
+
+  if (s.onEnter) setTimeout(s.onEnter, 120);
+
+  // Show/hide leaked badge in header
+  const leakedBadge = document.getElementById('leakedBadge');
+  const headerH1 = document.querySelector('.page-header h1');
+  const headerSub = document.querySelector('.page-header .sub');
+  const headerTag = document.querySelector('.page-header .tag');
+  if (leakedBadge) {
+    const isChat = shell.querySelector('.wa-wrapper') !== null;
+    leakedBadge.style.display = isChat ? 'inline-block' : 'none';
+    if (headerH1)  headerH1.style.display  = isChat ? 'none' : '';
+    if (headerSub) headerSub.style.display  = isChat ? 'none' : '';
+    if (headerTag) headerTag.style.display  = isChat ? 'none' : '';
+  }
+}
+
+function updateUI() {
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  prevBtn.disabled = current === 0;
+  nextBtn.disabled = current === total - 1;
+}
+
+function goTo(next) {
+  if (busy) return;
+  busy = true;
+  const goBack = next < current;
+
+  // Animate out
+  shell.classList.add(goBack ? 'flip-out-back' : 'flip-out');
+
+  setTimeout(() => {
+    shell.classList.remove('flip-out', 'flip-out-back');
+    current = next;
+    renderCard(current);
+    updateUI();
+
+    // Animate in
+    shell.classList.add(goBack ? 'flip-in-back' : 'flip-in');
+    setTimeout(() => {
+      shell.classList.remove('flip-in', 'flip-in-back');
+      busy = false;
+    }, 560);
+  }, 280);
+}
+
+prevBtn.addEventListener('click', () => { if (!busy && current > 0)         goTo(current - 1); });
+nextBtn.addEventListener('click', () => { if (!busy && current < total - 1) goTo(current + 1); });
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextBtn.click();
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   prevBtn.click();
+});
+
+// Touch swipe — only trigger if not scrolling inside card
+let tx = 0, ty = 0;
+document.addEventListener('touchstart', e => {
+  tx = e.touches[0].clientX;
+  ty = e.touches[0].clientY;
+}, { passive: true });
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  const dy = e.changedTouches[0].clientY - ty;
+  // If vertical scroll is dominant, ignore
+  if (Math.abs(dy) > Math.abs(dx)) return;
+  // Check if the card itself is scrollable and has scrolled content
+  const card = shell.querySelector('.section-card');
+  if (card) {
+    const scrollable = card.scrollHeight > card.clientHeight;
+    if (scrollable) return; // inside a scrollable card, don't swipe
+  }
+  if (Math.abs(dx) > 50) dx < 0 ? nextBtn.click() : prevBtn.click();
+});
+
+// Init
+renderCard(0);
+updateUI();
+
+
+let meterDone = false;
+function triggerMeter() {
+  if (meterDone) return;
+  meterDone = true;
+  const fill = document.getElementById('meterFill');
+  const pct  = document.getElementById('meterPercent');
+  if (!fill || !pct) return;
+  fill.style.width = '100%';
+  let n = 0;
+  const iv = setInterval(() => {
+    n++;
+    pct.textContent = n + '%';
+    if (n >= 100) clearInterval(iv);
+  }, 22);
+}
+
+/* ── BG MUSIC with Page Visibility ── */
+function startMusic() {
+  if (!musicStarted) {
+    bgAudio.play().then(() => { musicStarted = true; }).catch(() => {});
+  }
+}
+
+// Start music on first user interaction (browser policy)
+document.addEventListener('click', startMusic, { once: true });
+document.addEventListener('touchstart', startMusic, { once: true });
+document.addEventListener('keydown', startMusic, { once: true });
+
+// Pause when tab is hidden, resume when visible again
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    bgAudio.pause();
+  } else {
+    if (musicStarted) bgAudio.play().catch(() => {});
+  }
+});
+
+/* ── SMART MEDIA RENDERER ── */
+function renderMedia(src, alt, container) {
+  const ext = src.split('.').pop().toLowerCase();
+  const isVideo = ['mp4','webm','mov','ogg'].includes(ext);
+  if (isVideo) {
+    const vid = document.createElement('video');
+    vid.src = src;
+    vid.alt = alt;
+    vid.controls = true;
+    vid.playsInline = true;
+    vid.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;';
+    container.innerHTML = '';
+    container.appendChild(vid);
+  } else {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = alt;
+    img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block;';
+    container.innerHTML = '';
+    container.appendChild(img);
+  }
+}
+
+/* ── BG MUSIC ── */
+const bgAudio = new Audio('riyu song .mp3');
+bgAudio.loop = true;
+bgAudio.volume = 0.35;
+let musicStarted = false;
+
+/* ── PASSWORD GATE ── */
+(function() {
+  const PASSWORDS = ['yugiii', 'yugii', 'yugi'];
+  const screen = document.getElementById('passwordScreen');
+  const input  = document.getElementById('pwInput');
+  const btn    = document.getElementById('pwBtn');
+  const errEl  = document.getElementById('pwError');
+
+  function tryPassword() {
+    const val = input.value.trim().toLowerCase();
+    if (PASSWORDS.includes(val)) {
+      screen.style.transition = 'opacity 0.7s';
+      screen.style.opacity = '0';
+      setTimeout(() => { screen.style.display = 'none'; }, 700);
+      // start bg song on unlock
+      bgAudio.play().catch(() => {});
+      musicStarted = true;
+    } else {
+      errEl.textContent = 'Wrong password da 😤 try again!';
+      input.classList.add('pw-error');
+      setTimeout(() => { input.classList.remove('pw-error'); errEl.textContent = ''; }, 1500);
+      input.value = '';
+    }
+  }
+
+  btn.addEventListener('click', tryPassword);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') tryPassword(); });
+})();
+
+/* ── AH THANI SECTION LOGIC ── */
+const thaniAnswers = {};
+
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('thani-opt')) {
+    const q = e.target.dataset.q;
+    const val = e.target.dataset.val;
+    // deselect siblings
+    document.querySelectorAll(`.thani-opt[data-q="${q}"]`).forEach(b => b.classList.remove('selected'));
+    e.target.classList.add('selected');
+    thaniAnswers[q] = val;
+
+    // Q2 No popup
+    if (q === '2' && val === 'no') {
+      document.getElementById('popupEmoji').textContent = '💦';
+      document.getElementById('popupMsg').textContent = 'en dey pacha poi peasura parking la avan irukanu enna thaniya vitutu poniyee 💦';
+      document.getElementById('thaniPopup').classList.add('show');
+    }
+
+    // Q7 miss popup
+    if (q === '7' && val === 'yes miss panen') {
+      document.getElementById('popupEmoji').textContent = '😭';
+      document.getElementById('popupMsg').textContent = 'illa jass ahh pakkama miss panranu solluvala adhan ennaiyum apdi panriyanu keten 😭';
+      document.getElementById('thaniPopup').classList.add('show');
+    }
+  }
+});
+
+function sendThaniMail() {
+  const q6val = document.getElementById('thaniInput6') ? document.getElementById('thaniInput6').value : '';
+  thaniAnswers[6] = q6val || '(sollave illa 🙄)';
+
+  const message = `Ah Thani - Riya voda Answers 🥺
+
+1. Unnaku na impt ah illa maggie ahh → ${thaniAnswers[1] || 'answer pannala 😶'}
+2. Maggie kaga enna vitu kudupiya → ${thaniAnswers[2] || 'answer pannala 😶'}
+3. Ennaku oru nalla ponnu pathu tharuviya → ${thaniAnswers[3] || 'answer pannala 😶'}
+4. Won't replace me → ${thaniAnswers[4] || 'answer pannala 😶'}
+5. I'm still your priority → ${thaniAnswers[5] || 'answer pannala 😶'}
+6. Forget / hide → ${thaniAnswers[6]}
+7. Did you miss me in leave → ${thaniAnswers[7] || 'answer pannala 😶'}
+8. Maggie kaga avoid panra → ${thaniAnswers[8] || 'answer pannala 😶'}
+
+— from Riya voda website 💌`;
+
+  const btn = document.querySelector('.send-mail-btn');
+  btn.textContent = '📨 Anupuran...';
+  btn.disabled = true;
+
+  emailjs.send('service_895wyjg', 'template_mfub1xh', {
+    to_email: 'yugesh1222@gmail.com',
+    subject: 'Riya voda Ah Thani Answers 💌',
+    message: message
+  }).then(() => {
+    btn.textContent = '✅ Sent achu da!';
+    btn.style.background = 'linear-gradient(135deg, #4caf50, #81c784)';
+  }).catch(() => {
+    btn.textContent = '❌ Error! Try again';
+    btn.disabled = false;
+    btn.style.background = 'linear-gradient(135deg, #f44336, #e57373)';
+  });
+}
+
+const heartsEl = document.getElementById('hearts');
+const heartCount = 22;
+for (let i = 0; i < heartCount; i++) {
+  const h = document.createElement('div');
+  h.className = 'heart';
+  h.textContent = '💓';
+  const size = 0.8 + Math.random() * 1.1;
+  h.style.cssText = `
+    left: ${Math.random() * 100}%;
+    font-size: ${size}rem;
+    animation-duration: ${14 + Math.random() * 16}s;
+    animation-delay: ${-(Math.random() * 25)}s;
+    --r: ${(Math.random() - 0.5) * 30}deg;
+    opacity: 0;
+  `;
+  heartsEl.appendChild(h);
+}
+</script>
+</body>
+</html>
